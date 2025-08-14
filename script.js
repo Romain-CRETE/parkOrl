@@ -9,7 +9,7 @@ function getResponse(reponse) {
 function getJson(json) {
   console.log("JSON", json);
 
-  //logNoms(json.results);
+  logNoms(json.results);
   updateTable(json.results);
 }
 
@@ -26,7 +26,10 @@ function updateTable(parkingList) {
   let html = "";
 
   for (const parking of parkingList) {
-    html += "<tr><td>" + parking.nom + "</td><td>Ouvert</td></tr>";
+    html += "<tr>";
+    html += "<td>" + parking.nom + "</td>";
+    html += "<td>" + parking.etat_equipement + "</td>";
+    html += "</tr>";
   }
 
   // for (let i = 1; i <= parkingList.length; i++) {
@@ -36,5 +39,7 @@ function updateTable(parkingList) {
 
   document.getElementById("parkingList").innerHTML = html;
 }
+
+
 
 fetch(API_ORL).then(getResponse);
