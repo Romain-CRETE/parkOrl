@@ -9,7 +9,7 @@ function getResponse(reponse) {
 function getJson(json) {
   console.log("JSON", json);
 
-  logNoms(json.results);
+  //logNoms(json.results);
   updateTable(json.results);
 }
 
@@ -25,10 +25,23 @@ function updateTable(parkingList) {
 
   let html = "";
 
+
   for (const parking of parkingList) {
+
+    let a = parking.nb_places_disponibles;
+    let b = parking.nb_places;
+
+    function x(a, b) {
+
+      return (a * 100) / b;
+    }
+    let calcul = x(a, b)
+    let Pourcentage = Math.round(calcul)
+
     html += "<tr>";
     html += "<td>" + parking.nom + "</td>";
     html += "<td>" + parking.etat_equipement + "</td>";
+    html += "<td>" + naIfNull(Pourcentage) + "%" + "</td>";
     html += "</tr>";
   }
 
@@ -42,4 +55,34 @@ function updateTable(parkingList) {
 
 
 
+function naIfNull(value) {
+  if (value === null) {
+    return "NA";
+  }
+  else {
+    return value;
+  }
+
+}
+//naIfnull(2);
+//naIfnull(null);
+//console.log(test);
+
+//console.log(naIfull));
+
+//console.log(naIfull(null));
+
+function x(a, b) {
+  return (a * 100) / b;
+}
+
+let resultat = x(168, 410);
+console.log(resultat)
+
+
 fetch(API_ORL).then(getResponse);
+
+
+
+
+
