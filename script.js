@@ -20,28 +20,35 @@ function logNoms(parkingList) {
   }
 }
 
+function calculTauxRemplissage(nbPlaceDispo, nbPlace) {
+  if (nbPlaceDispo === null) {
+    return null;
+  } else {
+    return Math.round((1 - nbPlaceDispo / nbPlace) * 100);
+  }
+}
+
 function updateTable(parkingList) {
   console.log("updateTable", parkingList);
 
   let html = "";
 
-
   for (const parking of parkingList) {
+    let nbPlaceDispo = parking.nb_places_disponibles;
+    let nbPlace = parking.nb_places;
 
-    let a = parking.nb_places_disponibles;
-    let b = parking.nb_places;
-
-    function x(a, b) {
-
-      return (a * 100) / b;
-    }
-    let calcul = x(a, b)
-    let Pourcentage = Math.round(calcul)
+    let calcul = calculTauxRemplissage(nbPlaceDispo, nbPlace);
+    //let pourcentage = Math.round(calcul)
 
     html += "<tr>";
     html += "<td>" + parking.nom + "</td>";
     html += "<td>" + parking.etat_equipement + "</td>";
-    html += "<td>" + naIfNull(Pourcentage) + "%" + "</td>";
+    html +=
+      "<td>" +
+      formatPourcentage(calcul) +
+      " " +
+      formatProgressBar(calcul) +
+      "</td>";
     html += "</tr>";
   }
 
@@ -53,16 +60,12 @@ function updateTable(parkingList) {
   document.getElementById("parkingList").innerHTML = html;
 }
 
-
-
-function naIfNull(value) {
+function formatPourcentage(value) {
   if (value === null) {
     return "NA";
+  } else {
+    return value + "%";
   }
-  else {
-    return value;
-  }
-
 }
 //naIfnull(2);
 //naIfnull(null);
@@ -72,17 +75,19 @@ function naIfNull(value) {
 
 //console.log(naIfull(null));
 
-function x(a, b) {
-  return (a * 100) / b;
+//function x(a, b) {
+//  return (a * 100) / b;
+//}
+
+//let resultat = x(168, 410);
+//console.log(resultat)
+
+function formatProgressBar(value) {
+  if (value === null) {
+    return "";
+  } else {
+    return '<progress max="100"  value="' + value + '"/>';
+  }
 }
 
-let resultat = x(168, 410);
-console.log(resultat)
-
-
 fetch(API_ORL).then(getResponse);
-
-
-
-
-
